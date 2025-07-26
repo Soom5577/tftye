@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Video Background Page</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      justify-content: left;
+    }
+
+    .navbar ul li {
+      margin: 15px 20px;
+    }
+
+    .navbar ul li a {
+      color: white;
+      text-shadow: 0px 0px 10px black;
+      filter: drop-shadow(2px 2px 5px black);
+      text-decoration: none;
+      font-size: 30px;
+    }
+
+    /* Background Video */
+    #bg-video {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -1;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+    }
+    #play-button {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+    }
+    /* Second Page Content */
+    .second-page {
+      display: none;
+      color: white;
+      text-align: center;
+      margin-top: 100px;
+      font-size: 36px;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding-top: 100px;
+      color: white;
+    }
+    
+    /* Play Button for Sound */
+    .sound-notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+      z-index: 1000;
+      display: none;
+    }
+    button {
+        padding: 20px;
+        font-size: 20px;
+        border: none;
+        filter: drop-shadow(2px 2px 10px #fff);
+        border-radius: 5px;
+        text-shadow: 0px 0px 5px black;
+        transition: .3s ease-in;
+    }
+    button:hover {
+        transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <ul>
+      <li><a href="#" onclick="showHome()">家</a></li>
+      <li><a href="#" onclick="showAbout()">について</a></li>
+      <li><a href="#" onclick="showContact()">接触</a></li>
+    </ul>
+  </nav>
+
+  <!-- Background Video -->
+  <video id="bg-video" autoplay>
+    <source src="video/a3a6842e3774a43a88bd424a316b9efc.mp4" type="video/mp4">
+    Your browser does not support the video.
+  </video>
+
+  <!-- Add this in your HTML if you prefer a play button approach -->
+  <div id="play-button">
+    <button onclick="startVideo()">
+        サイトに入る
+    </button>
+  </div>
+
+
+  <!-- Sound Notification -->
+  <div id="sound-notification" class="sound-notification">
+    <button onclick="enableSound()">Click to Enable Sound</button>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const video = document.getElementById("bg-video");
+      const homeContent = document.getElementById("home-content");
+      const secondPage = document.getElementById("second-page");
+      const soundNotification = document.getElementById("sound-notification");
+
+      // Check if video can play with sound
+      video.onplay = function() {
+        if (video.muted) {
+          soundNotification.style.display = "block";
+        }
+      };
+
+      // When video ends, show second page
+      video.onended = function () {
+        window.location.href = "page.html";
+      };
+    });
+
+    // Enable sound function
+    function enableSound() {
+      const video = document.getElementById("bg-video");
+      video.muted = false;
+      document.getElementById("sound-notification").style.display = "none";
+    }
+
+    // Navigation functions
+    function showHome() {
+      document.getElementById("home-content").style.display = "block";
+      document.getElementById("second-page").style.display = "none";
+      document.getElementById("play-button").style.display = "none";
+      // Reset video if needed
+      const video = document.getElementById("bg-video");
+      video.currentTime = 0;
+      video.play();
+      document.getElementById("sound-notification").style.display = "none";
+    }
+
+    function showAbout() {
+      alert("About Us Page");
+    }
+
+    function showContact() {
+      alert("Contact Us Page");
+    }
+
+    function startVideo() {
+      const video = document.getElementById("bg-video");
+      video.play();
+      document.getElementById("play-button").style.display = "none";
+    }
+  </script>
+</body>
+</html>
